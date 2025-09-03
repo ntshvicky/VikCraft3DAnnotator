@@ -1,6 +1,6 @@
 # VikCraft3DAnnotator
 
-[VikCraft3A]: https://vikcraftpro.nitishsrivastava.com/datatable/index.html
+[VikCraft3A]: https://vikcraftpro.nitishsrivastava.com/model3d/index.html
 For a demonstration, visit the [VikCraft Interactive 3D Model Annotator demo][VikCraft3A].
 You can also find the full documentation on their [website][VikCraft3A].
 
@@ -11,7 +11,7 @@ You can also find the full documentation on their [website][VikCraft3A].
 ---
 **VikCraft3DAnnotator** is a powerful, dependency-injected JavaScript library for viewing, annotating, and measuring 3D models directly in the browser. Built on top of the robust **Three.js** ecosystem, it provides a comprehensive toolkit for interactive 3D model inspection.
 
-![VikCraft3DAnnotator Screenshot](https://i.imgur.com/gK5y4Pq.png)
+![VikCraft3DAnnotator Screenshot](Screenshot.png)
 *(This is a sample image. You can replace it with a screenshot or GIF of your application.)*
 ---
 ## ✨ Features
