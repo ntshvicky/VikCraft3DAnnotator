@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VikCraft3DAnnotator v3.2 - Example with API Hooks</title>
+    <style>
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; background-color: #111; }
+        #my-viewer-app { width: 100vw; height: 100vh; }
+    </style>
+    <link rel="stylesheet" href="vikcraft-3d-annotator.css">
+</head>
+<body>
+    <div id="my-viewer-app"></div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
+        import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+        import { TransformControls } from 'three/addons/controls/TransformControls.js';
+
+        
+        import { VikCraft3DAnnotator } from './vikcraft-3d-annotator.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 1. FAKE API / Local Storage ---
+            // In a real app, you would fetch this data from your server.
+            const savedAnnotations = JSON.parse(localStorage.getItem('myAnnotations')) || [];
+
+            const api = {
+                save: (annotation) => {
+                    console.log('SAVING ANNOTATION:', annotation);
+                    const index = savedAnnotations.findIndex(a => a.id === annotation.id);
+                    if (index > -1) savedAnnotations[index] = annotation; // Update
+                    else savedAnnotations.push(annotation); // Add new
+                    localStorage.setItem('myAnnotations', JSON.stringify(savedAnnotations));
+                },
+                update: (annotation) => {
+                    console.log('UPDATING ANNOTATION:', annotation);
+                    const item = savedAnnotations.find(a => a.id === annotation.id);
+                    if (item) item.text = annotation.text;
+                    localStorage.setItem('myAnnotations', JSON.stringify(savedAnnotations));
+                },
+                delete: (id) => {
+                    console.log('DELETING ANNOTATION ID:', id);
+                    const index = savedAnnotations.findIndex(a => a.id === id);
+                    if (index > -1) savedAnnotations.splice(index, 1);
+                    localStorage.setItem('myAnnotations', JSON.stringify(savedAnnotations));
+                }
+            };
+            
+            // --- 2. Configure Loaders ---
+            const dracoLoader = new DRACOLoader();
+            dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+            const gltfLoader = new GLTFLoader();
+            gltfLoader.setDRACOLoader(dracoLoader);
+            
+            // --- 3. Initialize the Library with API Callbacks ---
+            const viewer = new VikCraft3DAnnotator('my-viewer-app', {
+                THREE,
+                OrbitControls,
+                gltfLoader,
+                EffectComposer,
+                RenderPass,
+                OutlinePass,
+                OutputPass,
+                TransformControls,
+                
+                modelUrl: './assets/Xbot.glb', // Make sure you have a model here
+                sceneUnitScale: 0.2,
+
+                // --- HOOKS FOR YOUR API ---
+                onModelLoaded: () => {
+                    console.log('Model is loaded. Now loading saved annotations.');
+                    viewer.loadAnnotations(savedAnnotations);
+                },
+                onAnnotationAdded: (annotation) => {
+                    api.save(annotation);
+                },
+                onAnnotationUpdated: (annotation) => {
+                    api.update(annotation);
+                },
+                onAnnotationDeleted: (id) => {
+                    api.delete(id);
+                },
+            });
+        });
+    </script>
+
+</body>
+</html>

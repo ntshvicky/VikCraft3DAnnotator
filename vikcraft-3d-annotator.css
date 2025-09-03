@@ -1,0 +1,78 @@
+/* --- VikCraft3DAnnotator v3.7 Styles --- */
+
+/* CSS Variables for easy theme customization */
+:root {
+    --vikcraft-primary-color: #0099ff;
+    --vikcraft-text-color: #e5e7eb;
+    --vikcraft-background-color: rgba(31, 41, 55, 0.85);
+    --vikcraft-sidebar-bg: #1f2937; /* gray-800 */
+    --vikcraft-card-bg: #374151; /* gray-700 */
+    --vikcraft-card-hover-bg: #4b5563; /* gray-600 */
+    --vikcraft-border-color: #4b5563;
+    --vikcraft-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* --- Main Layout --- */
+.vikcraft-wrapper { display: flex; width: 100%; height: 100%; background-color: #111827; }
+.vikcraft-viewer { flex-grow: 1; position: relative; min-width: 0; }
+.vikcraft-sidebar { width: 350px; flex-shrink: 0; background-color: var(--vikcraft-sidebar-bg); display: flex; flex-direction: column; color: var(--vikcraft-text-color); font-family: var(--vikcraft-font-family); }
+
+/* --- Sidebar Tabs & Content --- */
+.vikcraft-sidebar-tabs { display: flex; border-bottom: 1px solid var(--vikcraft-border-color); }
+.vikcraft-tab-button { flex: 1; padding: 0.75rem 0; text-align: center; background: none; border: none; color: #9ca3af; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; }
+.vikcraft-tab-button:hover { color: white; }
+.vikcraft-tab-button.active { color: var(--vikcraft-primary-color); border-bottom-color: var(--vikcraft-primary-color); }
+.vikcraft-tab-content { display: none; padding: 1rem; overflow-y: auto; flex-grow: 1; }
+.vikcraft-tab-content.active { display: block; }
+
+/* --- Model Explorer Tree --- */
+.vikcraft-model-tree { padding: 0; margin: 0; list-style-type: none; }
+.vikcraft-model-tree ul { padding-left: 1rem; margin-top: 0.25rem; }
+.vikcraft-model-tree-item { padding: 0.3rem 0.5rem; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.15s ease; }
+.vikcraft-model-tree-item:hover { background-color: var(--vikcraft-card-hover-bg); }
+.vikcraft-model-tree-item.selected { background-color: var(--vikcraft-primary-color); color: white; }
+
+/* --- Annotation Card --- */
+.vikcraft-card { background-color: var(--vikcraft-card-bg); border-radius: 0.5rem; padding: 1rem; cursor: pointer; transition: background-color 0.2s ease; border: 1px solid transparent; }
+.vikcraft-card:hover { background-color: var(--vikcraft-card-hover-bg); }
+.vikcraft-card.active { border-color: var(--vikcraft-primary-color); background-color: var(--vikcraft-card-hover-bg); }
+.vikcraft-card-text { margin-bottom: 0.75rem; word-wrap: break-word; font-size: 0.9rem; }
+.vikcraft-card-actions { display: flex; gap: 8px; border-top: 1px solid var(--vikcraft-border-color); padding-top: 0.75rem; }
+.vikcraft-action-button { background: #4b5563; border: none; color: white; padding: 0.25rem 0.75rem; font-size: 0.8rem; border-radius: 0.375rem; cursor: pointer; transition: background-color 0.2s ease; }
+.vikcraft-action-button.delete:hover { background: #e11d48; }
+.vikcraft-action-button.edit:hover { background: #0ea5e9; }
+
+/* --- Main Toolbar --- */
+.vikcraft-toolbar { position: absolute; top: 15px; left: 15px; display: flex; align-items: center; gap: 5px; background-color: var(--vikcraft-background-color); padding: 8px; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 100; }
+.vikcraft-button { background-color: transparent; border: 1px solid rgba(255, 255, 255, 0.4); color: white; padding: 8px 12px; border-radius: 0.5rem; cursor: pointer; transition: background-color 0.2s ease; }
+.vikcraft-button.active { background-color: var(--vikcraft-primary-color); border-color: var(--vikcraft-primary-color); font-weight: bold; }
+
+/* --- NEW: Sub-toolbar for transform modes --- */
+.vikcraft-sub-toolbar {
+    display: flex;
+    gap: 4px;
+    background-color: rgba(0,0,0,0.3);
+    padding: 4px;
+    border-radius: 0.375rem;
+    margin-left: 8px;
+}
+.vikcraft-button-small {
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: var(--vikcraft-text-color);
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+.vikcraft-button-small:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.vikcraft-button-small.active {
+    background-color: var(--vikcraft-primary-color);
+    color: white;
+}
+
+/* --- 3D Labels --- */
+.vikcraft-label { position: absolute; top: 0; left: 0; color: white; font-size: 14px; pointer-events: none; padding: 8px 12px; background-color: var(--vikcraft-background-color); border-radius: 0.5rem; white-space: nowrap; z-index: 10; border: 1px solid #999; }
+.vikcraft-measure-label { border-color: var(--vikcraft-primary-color); }
